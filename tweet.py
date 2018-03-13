@@ -1,7 +1,7 @@
 import random
 import pronouncing as p
 import nltk
-
+import sys
 
 nltk.download('wordnet')
 from nltk.corpus import wordnet as wn
@@ -75,7 +75,66 @@ def rhyme_name():
         print(nsyn)
         return "broke: " + rsyn + " " + nsyn + ". woke: " + r + " " + n
 
+def not_quite(inp):
+    synset = wn.synsets(inp)[0]
+    r = random.choice(p.rhymes(inp))
+    print("What's the name for " + synset.definition() + "? Is it " + r + "?" )
+    for _ in range(10):
+        print("No, that's " + wn.synsets(r)[0].definition())
+        r = random.choice(p.rhymes(r))
+        while not wn.synsets(r):
+            r = random.choice(p.rhymes(r))
+        print("You're thinking of " + r + ".")
+        print("")
+
+# i love eating twinks
+# i think you meant a twinky - a twink is a facial expression where blah blah blah
+def not_quite2(inp):
+
+    if not wn.synsets(inp):
+        print("This word is undefined!")
+        sys.exit(0)
+    if not wn.synsets(inp)[0].examples():
+        print("This word has no example sentence!")
+        sys.exit(0)
+
+    w1plain = inp
+    w1 = wn.synsets(inp)[0]
+
+    w2plain = random.choice(p.rhymes(inp))
+    while not wn.synsets(w2plain):
+        print(w2plain)
+        w2plain = random.choice(p.rhymes(inp))
+    w2 = wn.synsets(w2plain)[0]
+
+    w3plain = random.choice(p.rhymes(w2plain))
+    while not wn.synsets(w3plain):
+        print(w3plain)
+        w3plain = random.choice(p.rhymes(w2plain))
+    w3 = wn.synsets(w3plain)[0]
+    # print an example sentence where the word is replaced with a word it rhymes with
+    # i think you meant <original_word>. a <rhyming word> is <definition of a word that rhymes with that word>.
+    example_sentence = w1.examples()[0]
+    example_sentence = example_sentence.replace(inp, w2plain)
+    print(example_sentence)
+
+    for _ in range(5):
+        if _ == 0:
+            print("No, you're thinking of " + w1plain + ". " + w2plain + " means \"" + w3.definition() + "\".")
+        else:
+            print("No, that's " + w2plain + ". " + w1plain + " means \"" + w3.definition() + "\".")
+        w1plain = w2plain
+        w1 = w2
+        w2plain = w3plain
+        w2 = w3
+        w3plain = random.choice(p.rhymes(w2plain))
+        while not wn.synsets(w3plain):
+            w3plain = random.choice(p.rhymes(w2plain))
+        w3 = wn.synsets(w3plain)[0]
+
+
+
 if __name__ == "__main__":
     # group_name()
-    print(rhyme_name())
-    # print(synonym('rabbit'))
+    # print(rhyme_name())
+    print(not_quite('cry'))
