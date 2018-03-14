@@ -80,6 +80,11 @@ def not_quite(inp):
     r = random.choice(p.rhymes(inp))
     print("What's the name for " + synset.definition() + "? Is it " + r + "?" )
     for _ in range(10):
+        choice = random.choice(["I think you actually mean ",
+            "No, that's ", "That's actually ",
+            "I think the word you want is ",
+            "I think you're looking for ",
+            "I think the word you're looking for is "])
         print("No, that's " + wn.synsets(r)[0].definition())
         r = random.choice(p.rhymes(r))
         while not wn.synsets(r):
@@ -89,6 +94,7 @@ def not_quite(inp):
 
 # i love eating twinks
 # i think you meant a twinky - a twink is a facial expression where blah blah blah
+# this one might have to be deprecrated - it doesn't really make any sense
 def not_quite2(inp):
 
     if not wn.synsets(inp):
@@ -120,9 +126,12 @@ def not_quite2(inp):
 
     for _ in range(5):
         if _ == 0:
-            print("No, you're thinking of " + w1plain + ". " + w2plain + " means \"" + w3.definition() + "\".")
+            print("I think you mean " + w1plain + ". " + w2plain + " means \"" + w3.definition() + "\".\n")
         else:
-            print("No, that's " + w2plain + ". " + w1plain + " means \"" + w3.definition() + "\".")
+            pre = random.choice(["I think you actually mean ", "You're thinking of ", "No, that's ", "That's actually ", "I think the word you want is ", "I think you're looking for ", "I think the word you're looking for is "])
+            mid = random.choice([" means ", " refers to ", " is defined as "])
+            end = random.choice([", I'm pretty sure.", ".", "!", ""])
+            print(pre + w2plain + ". " + w1plain + mid + w3.definition() + end + "\n")
         w1plain = w2plain
         w1 = w2
         w2plain = w3plain
@@ -132,9 +141,62 @@ def not_quite2(inp):
             w3plain = random.choice(p.rhymes(w2plain))
         w3 = wn.synsets(w3plain)[0]
 
+# the evolved form _bless_
+def not_quite3(inp, ex=None):
+
+    if not wn.synsets(inp):
+        print("This word is undefined!")
+        sys.exit(0)
+    if not wn.synsets(inp)[0].examples() and not ex:
+        print("This word has no example sentence!")
+        sys.exit(0)
+
+    w1plain = inp
+    w1 = wn.synsets(inp)[0]
+
+    w2plain = random.choice(p.rhymes(inp))
+    w2_original = w2plain
+    while not wn.synsets(w2plain):
+        print(w2plain)
+        w2plain = random.choice(p.rhymes(inp))
+    w2 = wn.synsets(w2plain)[0]
+
+    w3plain = random.choice(p.rhymes(w2plain))
+    while not wn.synsets(w3plain):
+        print(w3plain)
+        w3plain = random.choice(p.rhymes(w2plain))
+    w3 = wn.synsets(w3plain)[0]
+    # print an example sentence where the word is replaced with a word it rhymes with
+    # i think you meant <original_word>. a <rhyming word> is <definition of a word that rhymes with that word>.
+    example_sentence = (ex if ex else w1.examples()[0]).replace(inp, w2plain)
+    print(example_sentence, "\n")
+
+    for _ in range(10):
+        pre = random.choice(["I think you actually mean ", "You're thinking of ", "No, that's ", "That's actually ", "I think the word you want is ", "I think you're looking for ", "I think the word you're looking for is "])
+        mid = random.choice([" means ", " refers to ", " is defined as "])
+        end = random.choice([", I'm pretty sure.", ".", "!", ""])
+        if _ == 0:
+            print("\"" + pre + w1plain + ". " + w2plain + mid + w3.definition() + end + "\"\n")
+        else:
+            print("\"" + pre + w2plain + ". " + w2_original + mid + w3.definition() + end + "\"\n")
+        w1plain = w2plain
+        w1 = w2
+        w2plain = w3plain
+        w2 = w3
+        w3plain = random.choice(p.rhymes(w2plain))
+        while not wn.synsets(w3plain):
+            w3plain = random.choice(p.rhymes(w2plain))
+        w3 = wn.synsets(w3plain)[0]
+
+# i ate a twink for breakfast
+# i think you mean twinky - a twink is when you open and close one eye really quickly
+# no, that's a wink. a twink is with both eyes
+# i'm pretty sure that's a blink. isn't a twink something that you can be brought back from?
+# nah, that's the brink. a twink is a place you can go ice skating
+# no man, that's a rink.
 
 
 if __name__ == "__main__":
     # group_name()
     # print(rhyme_name())
-    print(not_quite('cry'))
+    print(not_quite3('behead', 'the executioner will behead him tomorrow'))
