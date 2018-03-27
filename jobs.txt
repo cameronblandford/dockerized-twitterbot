@@ -1,2 +1,3 @@
-* * * * * echo $(/doit) >> /log.txt
-* * * * * echo "an echo job has completed" >> /log.txt
+# M    H    DOM  MON  DOW  COMMAND
+  *    *    *    *    *    echo $(/doit) >> /log.txt
+  *    *    *    *    *    echo "an echo job has completed" >> /log.txt
