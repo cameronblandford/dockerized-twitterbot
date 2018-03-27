@@ -1,6 +1,6 @@
 # dockerized-twitterbot
 
-This twitter bot uses [Alpine](https://alpinelinux.org/) Linux with a [BusyBox](https://busybox.net/about.html) crond job scheduler to provide a low-footprint and easy to use twitter bot.
+This twitter bot uses [Alpine](https://alpinelinux.org/) Linux with a [BusyBox](https://busybox.net/about.html) crond job scheduler to provide a low-footprint and easy to use twitter bot. The cronjob setup is based off of [Andy's](https://github.com/andyshinn) [gist](https://gist.github.com/andyshinn/3ae01fa13cb64c9d36e7).
 
 ## Prerequisites
 * The current setup requires that you have a nouns.txt file, containing a list of nouns, and a bannedwords.txt file, containing a list of words that, if included in a tweet, will force the tweet to be thrown out.
