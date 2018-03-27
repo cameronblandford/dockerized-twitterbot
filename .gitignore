@@ -1,3 +1,4 @@
 *.pyc
 bannedwords.txt
 nouns.txt
+secrets.py

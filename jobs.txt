@@ -1,0 +1,2 @@
+* * * * * echo $(/doit) >> /log.txt
+* * * * * echo "an echo job has completed" >> /log.txt

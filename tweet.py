@@ -1,7 +1,11 @@
+#! /usr/bin/env python
+
 import random
 import pronouncing as p
 import nltk
 import sys
+import tweepy
+import secrets
 
 nltk.download('wordnet')
 from nltk.corpus import wordnet as wn
@@ -27,7 +31,7 @@ def synonym(inp):
 
 
 def group_name():
-    with open("./nouns.txt") as f:
+    with open("/nouns.txt") as f:
         nouns = f.readlines()
         n1 = random.choice(nouns).strip()
         if n1[-1] in ["s", "x"] or n1[-2:] in ["sh", "ss", "ch", "zz"]:
@@ -44,7 +48,7 @@ def group_name():
         print("A group of {} is called {}.".format(n1, n2))
 
 def rhyme_name():
-    with open("./nouns.txt") as f:
+    with open("/nouns.txt") as f:
         nouns = f.readlines()
         rhymes = []
         rsyn = ""
@@ -73,7 +77,7 @@ def rhyme_name():
         # return "broke: " + n + ". woke: " + r
         print(rsyn)
         print(nsyn)
-        return "broke: " + rsyn + " " + nsyn + ". woke: " + r + " " + n
+        return "broke: " + rsyn + " " + nsyn + "\nwoke: " + r + " " + n
 
 def not_quite(inp):
     synset = wn.synsets(inp)[0]
@@ -195,8 +199,27 @@ def not_quite3(inp, ex=None):
 # nah, that's the brink. a twink is a place you can go ice skating
 # no man, that's a rink.
 
+def contains_banned_word(str):
+    with open('/bannedwords.txt') as f:
+        bw = f.readlines()
+        bw = [x.strip() for x in bw]
+        strspl = str.split()
+        if set(strspl).intersection(set(bw)):
+            return True
+        else:
+            return False
+
 
 if __name__ == "__main__":
     # group_name()
     # print(rhyme_name())
-    print(not_quite3('behead', 'the executioner will behead him tomorrow'))
+    # print(not_quite3('behead', 'the executioner will behead him tomorrow'))
+    auth = tweepy.OAuthHandler(secrets.consumer_key, secrets.consumer_secret)
+    auth.set_access_token(secrets.access_token, secrets.access_token_secret)
+
+    api = tweepy.API(auth)
+    str = rhyme_name()
+    while contains_banned_word(str):
+        str = rhyme_name()
+
+    api.update_status(str)
