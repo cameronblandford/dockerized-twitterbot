@@ -2,3 +2,5 @@
 bannedwords.txt
 nouns.txt
 secrets.py
+__pycache__
+env
