@@ -12,13 +12,16 @@ This twitter bot uses [Alpine](https://alpinelinux.org/) Linux with a [BusyBox](
 
 ### Run locally
 * `$ git clone <this repo>`
+* `$ cd dockerized-twitterbot`
 * `$ docker-compose up -d`
 
 ### Run on a dedicated server:
-* Rent a digital ocean server pre-configured for docker, ssh into the server
-* Install docker-compose if needed.
+* [Set up a digitalocean docker server](https://www.digitalocean.com/community/tutorials/how-to-use-the-digitalocean-docker-application), or any other server that works to your liking ([hyper.sh](https://hyper.sh/) is cheaper ($1 as opposed to $5 per month) but not pre-configured).
+* SSH into your server.
+* Install docker and docker-compose if needed.
 * `$ git clone <this repo>`
-* cd into the repo and `$ docker-compose up -d` to start the docker container.
+* `$ cd dockerized-twitterbot`
+* `$ docker-compose up -d`
 
 ### Debugging
 * all stdout from tweet.py is dumped into /log.txt
