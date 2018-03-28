@@ -1,4 +1,2 @@
 #!/bin/sh
-
 echo $(python3 /tweet.py)
-echo "attempted"
