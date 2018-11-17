@@ -25,5 +25,5 @@ This twitter bot uses [Alpine](https://alpinelinux.org/) Linux with a [BusyBox](
 
 ### Debugging
 * all stdout from tweet.py is dumped into /log.txt
-* `$ docker exec -ti <your container name> /bin/ash` (`ash`, not `bash`) will open up the container's terminal
+* `$ docker exec -ti <your container name> /bin/ash` [sic] will open up the container's terminal
 * `$ tail -f log.txt` will let you livestream any updates to the logs.
